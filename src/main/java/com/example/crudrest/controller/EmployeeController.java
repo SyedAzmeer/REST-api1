@@ -19,26 +19,31 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    // create employee REST API
     @PostMapping
     public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee){
         return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
+    // build get all employee REST API
     @GetMapping
     public List<Employee> getAllEmployee(Employee employee){
         return employeeService.getAllEmployees();
     }
 
+    // build get all employee by id REST API
     @GetMapping
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") long employeeId){
        return new ResponseEntity<Employee>(employeeService.getEmployeeByID(employeeId),HttpStatus.OK);
     }
 
+    // build update employee REST API
     @PutMapping
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") long employeeId, @RequestBody Employee employee){
         return new ResponseEntity<Employee>(employeeService.updateEmployee(employee,employeeId),HttpStatus.OK);
     }
 
+    // build delete employee REST API
     public ResponseEntity<String> deleteEmployee(@PathVariable("id") long employeeId){
 
         employeeService.deleteEmployee(employeeId);
