@@ -45,12 +45,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     // build update employee REST API
     @Override
     public Employee updateEmployee(Employee employee, long id) {
+
+        // we need to check whether employee with given id is exist in DB or not
         Employee existingEmployee = employeeRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Employee", "Id", id));
 
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setEmail(employee.getEmail());
+        // save exisiting  employee to DB
         employeeRepository.save(existingEmployee);
         return existingEmployee;
     }
@@ -58,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     // build delete employee REST API
     @Override
     public void deleteEmployee(long id) {
+        // check whether an employee exist or not in db
         employeeRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Employee","Id",id));
         employeeRepository.deleteById(id);
     }
