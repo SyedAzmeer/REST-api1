@@ -24,25 +24,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    // create employee REST API
     @Override
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
-    // build get all employee REST API
     @Override
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    // build get all employee by id REST API
     @Override
     public Employee getEmployeeByID(long id) {
         return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee","Id",id));
     }
 
-    // build update employee REST API
     @Override
     public Employee updateEmployee(Employee employee, long id) {
 
@@ -58,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return existingEmployee;
     }
 
-    // build delete employee REST API
+
     @Override
     public void deleteEmployee(long id) {
         // check whether an employee exist or not in db
