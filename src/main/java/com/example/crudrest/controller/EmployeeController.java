@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     private EmployeeService employeeService;
