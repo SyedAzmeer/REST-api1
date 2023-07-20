@@ -1,22 +1,23 @@
 package com.example.crudrest.controller;
 
+import com.example.crudrest.dto.EmployeeDTO;
+import com.example.crudrest.mapper.EmployeeDTOMapper;
 import com.example.crudrest.model.Employee;
 import com.example.crudrest.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
 
-    public EmployeeController(EmployeeService employeeService){
+    public EmployeeController(EmployeeService employeeService, EmployeeDTOMapper employeeDTOMapper){
         super();
         this.employeeService = employeeService;
     }
@@ -30,15 +31,15 @@ public class EmployeeController {
     // build get all employee REST API
     //http://localhost:8080/api/employees
     @GetMapping
-    public List<Employee> getAllEmployee(Employee employee){
+    public List<EmployeeDTO> getAllEmployee(Employee employee){
         return employeeService.getAllEmployees();
     }
 
     // build get all employee by id REST API
     //http://localhost:8080/api/employees/1
     @GetMapping("{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") long employeeId){
-       return new ResponseEntity<Employee>(employeeService.getEmployeeByID(employeeId),HttpStatus.OK);
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable("id") long employeeId){
+       return new ResponseEntity<EmployeeDTO>(employeeService.getEmployeeByID(employeeId),HttpStatus.OK);
     }
 
     // build update employee REST API

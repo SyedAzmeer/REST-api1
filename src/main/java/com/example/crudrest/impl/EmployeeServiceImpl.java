@@ -1,6 +1,8 @@
 package com.example.crudrest.impl;
 
+import com.example.crudrest.dto.EmployeeDTO;
 import com.example.crudrest.exception.ResourceNotFoundException;
+import com.example.crudrest.mapper.EmployeeDTOMapper;
 import com.example.crudrest.model.Employee;
 import com.example.crudrest.repository.EmployeeRepository;
 import com.example.crudrest.service.EmployeeService;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -17,11 +19,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    private final EmployeeDTOMapper employeeDTOMapper;
 
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository){
+
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeDTOMapper employeeDTOMapper){
         super();
         this.employeeRepository = employeeRepository;
+        this.employeeDTOMapper = employeeDTOMapper;
     }
 
     // create employee REST API
@@ -32,14 +37,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     // build get all employee REST API
     @Override
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees() {
+        return employeeRepository.findAll()
+                .stream()
+                // if don't have mapper class, can use this way
+                //                .map(employee -> new EmployeeDTO(
+//                        employee.getId(),
+//                        employee.getFirstName(),
+//                        employee.getLastName()
+//                ))
+                .map(employeeDTOMapper)
+                .collect(Collectors.toList());
     }
 
     // build get all employee by id REST API
     @Override
-    public Employee getEmployeeByID(long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee","Id",id));
+    public EmployeeDTO getEmployeeByID(long id) {
+//        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee","Id",id));
+
+        return employeeRepository.findById(id)
+                .map(employeeDTOMapper)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Employee","Id",id
+                ));
     }
 
     // build update employee REST API

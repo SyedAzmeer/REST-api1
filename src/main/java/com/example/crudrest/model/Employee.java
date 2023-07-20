@@ -12,6 +12,9 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "userName" ,nullable = false)
+    private String userName;
+
     @Column(name = "firstname" ,nullable = false)
     private String firstName;
 
@@ -20,6 +23,9 @@ public class Employee {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "address")
+    private String address;
 
 
 }
